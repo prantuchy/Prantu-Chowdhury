@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PRANTU CHOWDHURY</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 30px auto;
+    background: #f4f4f4;
+    padding: 20px;
+  }
+  h1 {
+    text-align: center;
+    color: #333;
+  }
+  #postForm {
+    margin-bottom: 20px;
+  }
+  textarea {
+    width: 100%;
+    height: 80px;
+    padding: 10px;
+    resize: none;
+    font-size: 16px;
+  }
+  button {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+  }
+  .post {
+    background: white;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+  }
+  .post p {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  .actions {
+    display: flex;
+    gap: 15px;
+  }
+  .likeBtn, .commentBtn {
+    cursor: pointer;
+    color: #555;
+  }
+  .liked {
+    color: #e74c3c;
+    font-weight: bold;
+  }
+  .comments {
+    margin-top: 10px;
+  }
+  .commentInput {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    margin-top: 10px;
+    box-sizing: border-box;
+  }
+</style>
+</head>
+<body>
+
+<h1>PRANTU CHOWDHURY</h1>
+
+<div id="postForm">
+  <textarea id="postText" placeholder="Write your post here..."></textarea>
+  <br />
+  <button onclick="addPost()">Post</button>
+</div>
+
+<div id="postsContainer"></div>
+
+<script>
+  function addPost() {
+    const textArea = document.getElementById('postText');
+    const text = textArea.value.trim();
+    if (!text) {
+      alert('Please write something before posting.');
+      return;
+    }
+    
+    const post = document.createElement('div');
+    post.className = 'post';
+    
+    const postContent = document.createElement('p');
+    postContent.textContent = text;
+    
+    const actions = document.createElement('div');
+    actions.className = 'actions';
+    
+    const likeBtn = document.createElement('span');
+    likeBtn.className = 'likeBtn';
+    likeBtn.textContent = 'Like';
+    likeBtn.onclick = function() {
+      if (likeBtn.classList.contains('liked')) {
+        likeBtn.classList.remove('liked');
+        likeBtn.textContent = 'Like';
+      } else {
+        likeBtn.classList.add('liked');
+        likeBtn.textContent = 'Liked';
+      }
+    };
+    
+    const commentBtn = document.createElement('span');
+    commentBtn.className = 'commentBtn';
+    commentBtn.textContent = 'Comment';
+    
+    actions.appendChild(likeBtn);
+    actions.appendChild(commentBtn);
+    
+    const commentsDiv = document.createElement('div');
+    commentsDiv.className = 'comments';
+    commentsDiv.style.display = 'none';
+    
+    const commentInput = document.createElement('input');
+    commentInput.className = 'commentInput';
+    commentInput.type = 'text';
+    commentInput.placeholder = 'Write a comment...';
+    
+    commentInput.onkeydown = function(e) {
+      if (e.key === 'Enter') {
+        const commentText = commentInput.value.trim();
+        if (commentText) {
+          const commentP = document.createElement('p');
+          commentP.textContent = commentText;
+          commentsDiv.appendChild(commentP);
+          commentInput.value = '';
+        }
+      }
+    };
+    
+    commentsDiv.appendChild(commentInput);
+    
+    commentBtn.onclick = function() {
+      commentsDiv.style.display = commentsDiv.style.display === 'none' ? 'block' : 'none';
+      commentInput.focus();
+    };
+    
+    post.appendChild(postContent);
+    post.appendChild(actions);
+    post.appendChild(commentsDiv);
+    
+    const container = document.getElementById('postsContainer');
+    container.prepend(post);
+    
+    textArea.value = '';
+  }
+</script>
+
+<footer>
+    <p>&copy; 2025 PRANTU CHOWDHURY. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
